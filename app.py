@@ -51,6 +51,17 @@ def convert_text(text):
         start, end = match.span()
         text = text[:start] + key + text[end:]
         counter += 1
+    
+    # Protect decimals
+    pattern_decimal = r"\b\d+\.\d+\b"
+    matches = list(re.finditer(pattern_decimal, text))
+
+    for match in reversed(matches):
+        key = f"__DEC{counter}__"
+        protected[key] = match.group()
+        start, end = match.span()
+        text = text[:start] + key + text[end:]
+        counter += 1
 
     # ---------- Protect numbers with 4+ digits ----------
     pattern_big_numbers = r"\b\d{4,}\b"
@@ -244,15 +255,23 @@ if st.button("Generate Converted Text") and text:
     st.text_area("Result", converted, height=300)
 
 # ---------- Copy to Clipboard Button ----------
+import streamlit.components.v1 as components
+
+# ---------- Copy to Clipboard ----------
 if 'converted' in st.session_state and st.session_state.converted:
     converted_text = st.session_state.converted
 
-    if st.button("Copy Converted Text"):
-        try:
-            pyperclip.copy(converted_text)
-            st.success("✅ Converted text copied to clipboard!")
-        except Exception as e:
-            st.error(f"Failed to copy: {e}")
+    components.html(f"""
+    <button onclick="copyText()">Copy to Clipboard</button>
+
+    <script>
+    function copyText() {{
+        const text = `{converted_text}`;
+        navigator.clipboard.writeText(text);
+        alert("Copied to clipboard!");
+    }}
+    </script>
+    """, height=50)
 
 # ---------- Always-visible download ----------
 st.subheader("Download Converted File")
@@ -290,6 +309,13 @@ else:
         disabled=True
     )
 
+st.warning(
+    "After conversion, please manually review the text for the following cases:\n\n"
+    "- Words that were originally meant to remain in **English**.\n"
+    "- **Single numbers between 0 and 999**, which may have been used as fake-font letters.\n"
+    "- Cases where **ɛ̈ was manually underlined in MS Word** (not Unicode underline) to represent **ɛ̱̈**.\n\n"
+    "These situations cannot always be detected automatically and may need manual correction."
+)
 # ---------- Footer / Notes ----------
 
 st.markdown("---")  # horizontal line
@@ -313,7 +339,6 @@ st.markdown(
 )
 st.markdown("Please note:\n"
     "The converter may not work correctly for other fonts or encodings.\n"
-    "Review numbers, punctuation, and Bible references manually after conversion."
 )
 
 st.markdown("---")  # horizontal line
