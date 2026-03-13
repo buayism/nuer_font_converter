@@ -205,7 +205,15 @@ def export_docx(text):
 
 # -------- STREAMLIT UI --------
 
-st.title("Nuer Font Converter")
+st.markdown(
+    "<h1 style='text-align: center;'>Nuer Font Converter</h1>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align: center;'>Convert fake Nuer fonts to standard Unicode Nuer letters</p>",
+    unsafe_allow_html=True
+)
 
 st.markdown("---")  # horizontal line
 
@@ -356,4 +364,5 @@ st.markdown(
 st.markdown("---")  # horizontal line
 st.markdown(
     "For any suggestions or comments, please reach out to me through the email address above.\n"
+
     )
