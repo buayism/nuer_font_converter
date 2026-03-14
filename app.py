@@ -1,6 +1,7 @@
 import streamlit as st
 from docx import Document
 import PyPDF2
+import pdfplumber
 import pyperclip
 import json
 import re
