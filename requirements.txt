@@ -2,3 +2,4 @@ streamlit
 python-docx
 PyPDF2
 pyperclip
+pdfplumber
