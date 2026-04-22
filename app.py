@@ -7,8 +7,8 @@ import json
 import re
 import io
 
-# Character mapping
-mapping = {
+# Character mappings
+mapping_standard = {
     "`": "ä",
     "1": "a̱",
     "2": "ë",
@@ -39,7 +39,33 @@ mapping = {
     "V": "Ɛ"
 }
 
-def convert_text(text):
+mapping_bok_en_yel = {
+    "Æ": "ɛ",
+    "Å": "ɔ̱",
+    "À": "a̱",
+    "Ÿ": "ɛ̈",
+    "È": "e̱",
+    "Œ": "ɔ",
+    "Ŕ": "ɣ",
+    "Ì": "i̱",
+    "Ñ": "ŋ",
+    "Ò": "o̱",
+    "Ý": "ɛ̱̈",
+    # Lowercase versions
+    "æ": "ɛ",
+    "å": "ɔ̱",
+    "à": "a̱",
+    "ÿ": "ɛ̈",
+    "è": "e̱",
+    "œ": "ɔ",
+    "ŕ": "ɣ",
+    "ì": "i̱",
+    "ñ": "ŋ",
+    "ò": "o̱",
+    "ý": "ɛ̱̈",
+}
+
+def convert_text(text, char_mapping):
     protected = {}
     counter = 0
 
@@ -107,7 +133,7 @@ def convert_text(text):
                 result += "!"
             else:
                 # Otherwise treat as fake letter
-                result += mapping.get(char, char)
+                result += char_mapping.get(char, char)
 
             i += 1
             continue
@@ -149,13 +175,13 @@ def convert_text(text):
                 continue
 
         # ---------- Repeated fake vowels ----------
-        if i + 1 < len(text) and text[i] == text[i + 1] and text[i] in mapping:
-            result += mapping[text[i]] + mapping[text[i + 1]]
+        if i + 1 < len(text) and text[i] == text[i + 1] and text[i] in char_mapping:
+            result += char_mapping[text[i]] + char_mapping[text[i + 1]]
             i += 2
             continue
 
         # ---------- Normal conversion ----------
-        result += mapping.get(char, char)
+        result += char_mapping.get(char, char)
         i += 1
 
     # ---------- Restore protected parts ----------
@@ -229,6 +255,18 @@ st.info(
 
 st.markdown("---")  # horizontal line
 
+# Font type selector
+font_type = st.radio(
+    "Select the fake font type used in your text",
+    ["Standard Nuer Font", "Bok Ɛn Yel Font"],
+    horizontal=True
+)
+
+if font_type == "Standard Nuer Font":
+    active_mapping = mapping_standard
+else:
+    active_mapping = mapping_bok_en_yel
+
 # Paste text
 text_input = st.text_area("Paste fake-font Nuer text")
 
@@ -257,7 +295,7 @@ elif uploaded_file:
 # ---------- Generate Button ----------
 if st.button("Generate Converted Text") and text:
 
-    converted = convert_text(text)
+    converted = convert_text(text, active_mapping)
     st.session_state.converted = converted  # save converted text in session
 
     st.subheader("Converted Text")
@@ -329,23 +367,41 @@ st.warning(
 
 st.markdown("---")  # horizontal line
 
-st.markdown(
-    "### Note\n"
-    "This converter is specifically designed for Nuer texts written using **fake fonts** where:\n\n"
-    "- `` ` `` → ä\n"
-    "- `` 1 `` → a̱\n"
-    "- `` 2 `` → ë\n"
-    "- `` 3 `` → e̱\n"
-    "- `` 5 `` → i̱\n"
-    "- `` 6 `` → ö\n"
-    "- `` 7 `` → o̱\n"
-    "- `` 0 `` → ɛ̈\n"
-    "- `` ] `` → ɔ̱\n"
-    "- `` s `` → ɔ\n"
-    "- `` f `` → ɣ\n"
-    "- `` x `` → ŋ\n"
-    "- `` v `` → ɛ\n\n"
-)
+st.markdown("### Note")
+st.markdown("This converter is specifically designed for Nuer texts written using **fake fonts**.")
+
+if font_type == "Standard Nuer Font":
+    st.markdown(
+        "**Standard Nuer Font mapping:**\n\n"
+        "- `` ` `` → ä\n"
+        "- `` 1 `` → a̱\n"
+        "- `` 2 `` → ë\n"
+        "- `` 3 `` → e̱\n"
+        "- `` 5 `` → i̱\n"
+        "- `` 6 `` → ö\n"
+        "- `` 7 `` → o̱\n"
+        "- `` 0 `` → ɛ̈\n"
+        "- `` ] `` → ɔ̱\n"
+        "- `` s `` → ɔ\n"
+        "- `` f `` → ɣ\n"
+        "- `` x `` → ŋ\n"
+        "- `` v `` → ɛ\n\n"
+    )
+else:
+    st.markdown(
+        "**Bok Ɛn Yel Font mapping:**\n\n"
+        "- `` Æ/æ `` → ɛ\n"
+        "- `` Å/å `` → ɔ̱\n"
+        "- `` À/à `` → a̱\n"
+        "- `` Ÿ/ÿ `` → ɛ̈\n"
+        "- `` È/è `` → e̱\n"
+        "- `` Œ/œ `` → ɔ\n"
+        "- `` Ŕ/ŕ `` → ɣ\n"
+        "- `` Ì/ì `` → i̱\n"
+        "- `` Ñ/ñ `` → ŋ\n"
+        "- `` Ò/ò `` → o̱\n"
+        "- `` Ý/ý `` → ɛ̱̈\n\n"
+    )
 st.markdown("Please note:\n"
     "The converter may not work correctly for other fonts or encodings.\n"
 )

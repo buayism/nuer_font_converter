@@ -1,0 +1,20 @@
+Läñæ Kuoth nì ciañ kæ kœn, ale-lu-ya! nyuåthæ liààdæ mëë cæ lìw, a-le-lu-ya! caræ guààthdan gèèkädæ, a-le-luya! jæn mì cì käny raar lìth jœl, a-le-lu-ya!
+
+Läŋɛ kuoth ni̱ ciaŋ kɛ kɔn, ale-luya!, ale-lu-ya! Nyuɔ̱thɛ lia̱a̱dɛ mëë cɛ li̱w, ale-lu-ya! Carɛ gua̱a̱thdan ge̱e̱kädɛ, ale-lu-ya! Jɛn mi̱ ci̱ käny raar li̱th jɔl a-le-lu-ya
+
+
+
+
+after running it for the first time, it didn't perform like i wanted
+
+Æ = ɛ
+Å = ɔ̱
+À = a̱
+Ÿ = ɛ̈
+È = e̱
+Œ = ɔ
+Ŕ = ɣ
+Ì = i̱
+Ñ = ŋ
+Ò = o̱
+Ý = ɛ̱̈
