@@ -410,9 +410,10 @@ st.markdown("---")  # horizontal line
 st.markdown(
     "### Credits\n"
     "Developed by **Jack Bill Jack**. Inspired by the need to preserve and digitize Nuer texts accurately.\n" 
+    "improved by **Buay Kun Gach** to handle the issues identified after deployment"
     )
 st.markdown(
-    "Contact: jackbilljack14@gmail.com"
+    "Contact: buaykungach028@gmail.com"
     )
 st.markdown(
     "Special thanks to the Nuer community for font documentation and testing."
