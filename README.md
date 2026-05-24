@@ -18,6 +18,11 @@ Converting materials to **standard Unicode Nuer letters** ensures your text is *
 2. Click **Generate Converted Text**.
 3. Copy or download the converted text.
 
+## how to run it locally
+- Make sure you have python installed
+- pip install streamlit
+- python -m streamlit run app.py
+
 ---
 
 **Credit:** Developed by Jack Bill Jack
